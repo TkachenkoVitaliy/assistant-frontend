@@ -1,0 +1,1 @@
+React + TypeScript + Vite + ESLint + Prettier + Husky + React-router-dom + Scss
