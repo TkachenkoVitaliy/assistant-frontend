@@ -1,6 +1,6 @@
 .fileForm {
   border: solid 1px var(--color-divider);
-  border-radius: 5px;
+  border-radius: 1rem;
   padding: 20px;
   min-width: 600px;
   display: flex;
@@ -11,4 +11,23 @@
 .sendBtn {
   margin: 20px auto 10px auto;
   padding: 0 10px;
+  text-transform: uppercase;
+  height: 50px;
+  border-width: 2px;
+  border-radius: 1rem;
+  border-style: solid;
+  border-color: var(--color-primary-main);;
+  background-color: var(--color-primary-main);
+  color: var(--color-background);
+  font-weight: 800;
+
+  &:disabled {
+    opacity: var(--opacity-disabled);
+    cursor: not-allowed;
+  }
+
+  &:hover {
+    background-color: var(--color-background);
+    color: var(--color-primary-main);
+  }
 }

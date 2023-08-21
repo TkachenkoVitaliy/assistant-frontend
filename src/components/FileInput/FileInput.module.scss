@@ -1,10 +1,9 @@
 .inputFileUpload {
   display: none;
-  
-  
 }
 
 .labelFileUpload {
+  min-height: 90px;
   height: 100%;
   display: flex;
   align-items: center;
@@ -14,22 +13,18 @@
   border-style: dashed;
   border-color: #cbd5e1;
   background-color: #f8fafc;
-  margin: 10px;
+  margin: 15px;
   &.dragActive{
     background-color: var(--color-background);
   }
+
+  p {
+    margin: 10px;
+  }
 }
 
-
-.uploadButton {
-  cursor: pointer;
-  padding: 0.25rem;
-  font-size: 1rem;
-  border: none;
-  font-family: 'Oswald', sans-serif;
-  background-color: transparent;
-}
-
-.uploadButton:hover {
-  text-decoration-line: underline;
+.info_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }

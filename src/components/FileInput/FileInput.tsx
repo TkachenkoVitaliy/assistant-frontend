@@ -2,30 +2,30 @@ import React, { useState } from 'react'
 import styles from './FileInput.module.scss'
 
 export interface FileInputProps {
+  state: File | null
+  fieldName: string
   name: string
   onChange: (file: File | null, name: string) => void
 }
 
-export default function FileInput({ name, onChange }: FileInputProps) {
-  const [file, setFile] = useState<File | null>(null)
+export default function FileInput({
+  state,
+  fieldName,
+  name,
+  onChange,
+}: FileInputProps) {
   const [dragActive, setDragActive] = React.useState<boolean>(false)
-  const domId = `input${name}`
-
-  function onFileUpload(uploadedFile: File | null) {
-    setFile(uploadedFile)
-    onChange(uploadedFile, name)
-  }
+  const domId = `input${fieldName}`
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const uploadedFile = event.currentTarget.files
       ? event.currentTarget.files[0]
       : null
-    onFileUpload(uploadedFile)
+    onChange(uploadedFile, fieldName)
   }
 
-  function handleDrag(event: React.DragEvent<HTMLDivElement>) {
+  function handleDrag(event: React.DragEvent<HTMLLabelElement>) {
     event.preventDefault()
-    event.stopPropagation()
     if (event.type === 'dragenter' || event.type === 'dragover') {
       setDragActive(true)
     } else if (event.type === 'dragleave') {
@@ -35,19 +35,14 @@ export default function FileInput({ name, onChange }: FileInputProps) {
 
   function hadleDrop(event: React.DragEvent<HTMLLabelElement>) {
     event.preventDefault()
-    event.stopPropagation()
     setDragActive(false)
     if (event.dataTransfer.files && event.dataTransfer.files[0]) {
-      onFileUpload(event.dataTransfer.files[0])
+      onChange(event.dataTransfer.files[0], fieldName)
     }
   }
 
   return (
-    <div
-      onDragEnter={handleDrag}
-      onDragLeave={handleDrag}
-      onDragOver={handleDrag}
-    >
+    <div>
       <input
         type="file"
         id={domId}
@@ -61,21 +56,20 @@ export default function FileInput({ name, onChange }: FileInputProps) {
             ? `${styles.labelFileUpload} ${styles.dragActive}`
             : styles.labelFileUpload
         }
+        onDragEnter={handleDrag}
+        onDragLeave={handleDrag}
+        onDragOver={handleDrag}
         onDrop={hadleDrop}
       >
-        <div>
-          <p>{name}</p>
+        <div className={styles.info_wrapper}>
+          <div>
+            <p>
+              <b>{name}</b>
+            </p>
+          </div>
+          {state?.name ? <p>{state.name}</p> : null}
         </div>
-        {file ? <div>{file.name}</div> : null}
       </label>
     </div>
-    // <>
-    //   <h3>{name}</h3>
-    //   <input
-    //     type="file"
-    //     name={name}
-    //     onChange={handleChange}
-    //   />
-    // </>
   )
 }

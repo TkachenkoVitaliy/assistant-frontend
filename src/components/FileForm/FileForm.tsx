@@ -1,16 +1,19 @@
 import FileInput from 'components/FileInput/FileInput'
 import { useCallback, useState } from 'react'
 import axios from 'axios'
+import { FileNames } from 'pages/Margin/Margin'
 import styles from './FileForm.module.scss'
 
 interface FileFormProps {
-  fileNames: Array<string>
+  fileNames: Array<FileNames>
 }
 
 export default function FileForm({ fileNames }: FileFormProps) {
   console.log('RENDER FORM')
   const [files, setFiles] = useState<Record<string, File | null>>(
-    Object.fromEntries(fileNames.map((fileName: string) => [fileName, null]))
+    Object.fromEntries(
+      fileNames.map((fileName: FileNames) => [fileName.backendName, null])
+    )
   )
   const [disabled, setDisabled] = useState<boolean>(true)
 
@@ -46,6 +49,12 @@ export default function FileForm({ fileNames }: FileFormProps) {
 
     axios.post(url, formData, config).then((response) => {
       console.log(response.data)
+      setFiles(
+        Object.fromEntries(
+          fileNames.map((fileName: FileNames) => [fileName.backendName, null])
+        )
+      )
+      setDisabled(true)
     })
   }
 
@@ -56,8 +65,10 @@ export default function FileForm({ fileNames }: FileFormProps) {
     >
       {fileNames.map((fileName) => (
         <FileInput
-          key={fileName}
-          name={fileName}
+          key={fileName.backendName}
+          state={files[fileName.backendName]}
+          fieldName={fileName.backendName}
+          name={fileName.uiName}
           onChange={handleInputChange}
         />
       ))}
