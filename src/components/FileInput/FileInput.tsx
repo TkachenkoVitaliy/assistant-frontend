@@ -2,16 +2,11 @@ import React, { useState } from 'react'
 import styles from './FileInput.module.scss'
 
 export interface FileInputProps {
-  initState: File | null
   name: string
   onChange: (file: File | null, name: string) => void
 }
 
-export default function FileInput({
-  initState,
-  name,
-  onChange,
-}: FileInputProps) {
+export default function FileInput({ name, onChange }: FileInputProps) {
   const [file, setFile] = useState<File | null>(null)
   const [dragActive, setDragActive] = React.useState<boolean>(false)
   const domId = `input${name}`
