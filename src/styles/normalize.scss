@@ -1,6 +1,8 @@
 html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
 }
 
 body {
@@ -21,7 +23,8 @@ h1 {
 
 a {
   background-color: transparent;
-  all: unset;
+  text-decoration: none;
+  color: unset;
 }
 
 ul {
@@ -113,4 +116,13 @@ textarea {
 
 [hidden] {
   display: none;
+}
+
+button {
+  background-color: var(--color-background);
+  font-size: var(----button-font-size);
+  line-height: (--button-line-height);
+  font-weight: (--button-font-weight);
+  width: unset;
+  cursor: pointer;
 }

@@ -1,5 +1,6 @@
 import FileInput from 'components/FileInput/FileInput'
 import { useState } from 'react'
+import styles from './FileForm.module.scss'
 
 interface FileFormProps {
   fileNames: Array<string>
@@ -16,7 +17,7 @@ export default function FileForm({ fileNames }: FileFormProps) {
   }
 
   return (
-    <form style={{ display: 'flex', flexDirection: 'column' }}>
+    <form className={styles.fileForm}>
       {fileNames.map((fileName) => (
         <FileInput
           key={fileName}
@@ -24,6 +25,14 @@ export default function FileForm({ fileNames }: FileFormProps) {
           onChange={handleInputChange}
         />
       ))}
+      <button
+        className={styles.sendBtn}
+        type="submit"
+        aria-label="Send"
+        id="send_btn"
+      >
+        SEND
+      </button>
     </form>
   )
 }

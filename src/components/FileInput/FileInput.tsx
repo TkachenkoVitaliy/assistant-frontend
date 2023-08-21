@@ -18,7 +18,7 @@ export default function FileInput({ name, onChange }: FileInputProps) {
 
   return (
     <>
-      <p>{name}</p>
+      <h3>{name}</h3>
       <input
         type="file"
         name={name}

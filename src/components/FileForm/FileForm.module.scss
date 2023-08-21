@@ -1,0 +1,14 @@
+.fileForm {
+  border: solid 1px var(--color-divider);
+  border-radius: 5px;
+  padding: 20px;
+  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sendBtn {
+  width: fit-content;
+  padding: 0 10px;
+}
