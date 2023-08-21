@@ -34,7 +34,7 @@ module.exports = {
     'jsx-quotes': ['error', 'prefer-double'],
     'max-lines': [
       'warn',
-      { max: 50, skipBlankLines: false, skipComments: true },
+      { max: 80, skipBlankLines: false, skipComments: true },
     ],
     'react/require-default-props': [
       'error',
@@ -42,5 +42,7 @@ module.exports = {
         functions: 'defaultArguments',
       },
     ],
+    // Не работает
+    'jsx-a11y/label-has-associated-control': 0,
   },
 }
