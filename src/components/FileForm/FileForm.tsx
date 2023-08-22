@@ -1,6 +1,6 @@
 import FileInput from 'components/FileInput/FileInput'
 import { useCallback, useState } from 'react'
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { FileNames } from 'pages/Margin/Margin'
 import styles from './FileForm.module.scss'
 
@@ -41,14 +41,25 @@ export default function FileForm({ fileNames }: FileFormProps) {
       }
     })
 
-    const config = {
+    const config: AxiosRequestConfig = {
       headers: {
         'content-type': 'multipart/form-data',
       },
+      responseType: 'blob',
     }
 
     axios.post(url, formData, config).then((response) => {
-      console.log(response.data)
+      console.log(response)
+
+      const downloadedFileName = response.headers.filename
+
+      const fileUrl = window.URL.createObjectURL(response.data)
+      const fileLink = document.createElement('a')
+      fileLink.href = fileUrl
+      fileLink.setAttribute('download', downloadedFileName)
+      document.body.appendChild(fileLink)
+      fileLink.click()
+
       setFiles(
         Object.fromEntries(
           fileNames.map((fileName: FileNames) => [fileName.backendName, null])
