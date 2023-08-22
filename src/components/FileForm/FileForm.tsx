@@ -33,7 +33,8 @@ export default function FileForm({ fileNames }: FileFormProps) {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const url = 'http://localhost:8089/api/v1/margin'
+    const url = 'http://lena.vtkachenko.ru:8089/api/v1/margin'
+    // const url = 'http://localhost:8089/api/v1/margin'
     const formData = new FormData()
     Object.entries(files).forEach((entry) => {
       if (entry[1] !== null) {
