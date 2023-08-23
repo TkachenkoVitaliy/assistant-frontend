@@ -38,7 +38,7 @@ export default function FileForm({ fileNames }: FileFormProps) {
       window.location.host === 'localhost'
         ? 'http://localhost:8089'
         : window.location.origin
-    const url = `{origin}/api/v1/margin`
+    const url = `${origin}/api/v1/margin`
     const formData = new FormData()
     Object.entries(files).forEach((entry) => {
       if (entry[1] !== null) {
