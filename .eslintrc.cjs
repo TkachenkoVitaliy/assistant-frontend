@@ -34,7 +34,7 @@ module.exports = {
     'jsx-quotes': ['error', 'prefer-double'],
     'max-lines': [
       'warn',
-      { max: 80, skipBlankLines: false, skipComments: true },
+      { max: 100, skipBlankLines: false, skipComments: true },
     ],
     'react/require-default-props': [
       'error',

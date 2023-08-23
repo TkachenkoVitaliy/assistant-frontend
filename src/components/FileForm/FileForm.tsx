@@ -2,6 +2,7 @@ import FileInput from 'components/FileInput/FileInput'
 import { useCallback, useState } from 'react'
 import axios, { AxiosRequestConfig } from 'axios'
 import { FileNames } from 'pages/Margin/Margin'
+import Loader from 'components/Loader/Loader'
 import styles from './FileForm.module.scss'
 
 interface FileFormProps {
@@ -9,13 +10,13 @@ interface FileFormProps {
 }
 
 export default function FileForm({ fileNames }: FileFormProps) {
-  console.log('RENDER FORM')
   const [files, setFiles] = useState<Record<string, File | null>>(
     Object.fromEntries(
       fileNames.map((fileName: FileNames) => [fileName.backendName, null])
     )
   )
   const [disabled, setDisabled] = useState<boolean>(true)
+  const [isLoading, setLoading] = useState<boolean>(false)
 
   const isAllFilesUploaded = (currentFiles: Record<string, File | null>) => {
     return Object.entries(currentFiles).every((entry) => entry[1] !== null)
@@ -49,25 +50,32 @@ export default function FileForm({ fileNames }: FileFormProps) {
       responseType: 'blob',
     }
 
-    axios.post(url, formData, config).then((response) => {
-      console.log(response)
+    setLoading(true)
+    axios
+      .post(url, formData, config)
+      .then((response) => {
+        setDisabled(true)
+        const downloadedFileName = response.headers.filename
 
-      const downloadedFileName = response.headers.filename
+        const fileUrl = window.URL.createObjectURL(response.data)
+        const fileLink = document.createElement('a')
+        fileLink.href = fileUrl
+        fileLink.setAttribute('download', downloadedFileName)
+        document.body.appendChild(fileLink)
+        fileLink.click()
 
-      const fileUrl = window.URL.createObjectURL(response.data)
-      const fileLink = document.createElement('a')
-      fileLink.href = fileUrl
-      fileLink.setAttribute('download', downloadedFileName)
-      document.body.appendChild(fileLink)
-      fileLink.click()
-
-      setFiles(
-        Object.fromEntries(
-          fileNames.map((fileName: FileNames) => [fileName.backendName, null])
+        setFiles(
+          Object.fromEntries(
+            fileNames.map((fileName: FileNames) => [fileName.backendName, null])
+          )
         )
-      )
-      setDisabled(true)
-    })
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   return (
@@ -84,15 +92,19 @@ export default function FileForm({ fileNames }: FileFormProps) {
           onChange={handleInputChange}
         />
       ))}
-      <button
-        disabled={disabled}
-        className={styles.sendBtn}
-        type="submit"
-        aria-label="Send"
-        id="send_btn"
-      >
-        Сформировать отчет
-      </button>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <button
+          disabled={disabled}
+          className={styles.sendBtn}
+          type="submit"
+          aria-label="Send"
+          id="send_btn"
+        >
+          Сформировать отчет
+        </button>
+      )}
     </form>
   )
 }
