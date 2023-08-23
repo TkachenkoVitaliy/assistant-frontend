@@ -15,4 +15,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script: ./deploy.sh
+          script: |
+            cd app/assistant-frontend
+            ./deploy.sh
