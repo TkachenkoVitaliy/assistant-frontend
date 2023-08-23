@@ -4,7 +4,7 @@ echo 'remove docker containers and images'
 docker rm --force front
 docker system prune -f
 echo 'pull last version from gitlab'
-git pull
+git pull origin
 echo 'build docker image'
 docker build -t frontend .
 echo 'run docker container'
