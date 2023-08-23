@@ -35,9 +35,7 @@ export default function FileForm({ fileNames }: FileFormProps) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const origin =
-      window.location.host === 'localhost'
-        ? 'http://localhost:8089'
-        : window.location.origin
+      window.location.host === 'localhost' ? 'http://localhost:8089' : ''
     const url = `${origin}/api/v1/margin`
     const formData = new FormData()
     Object.entries(files).forEach((entry) => {
