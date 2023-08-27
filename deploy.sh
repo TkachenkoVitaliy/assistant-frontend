@@ -1,14 +1,14 @@
 #! /bin/bash
 echo 'start deploy'
-echo 'remove docker containers and images'
+echo 'remove old container'
 docker rm --force front
-docker system prune -f
-echo 'pull last version from gitlab'
-git pull origin
+echo 'remove old image'
+docker rmi --force frontend
 echo 'build docker image'
 docker build -t frontend .
 echo 'run docker container'
 docker run -d -it -p 80:80 --restart always --name front frontend
-echo 'add to network'
+echo 'connect container to dockernet network'
+docker network inspect dockernet >/dev/null 2>&1 || docker network create --driver bridge dockernet
 docker network connect dockernet front
-echo 'deploy completed'
+echo 'complete!!!'
